@@ -12,5 +12,5 @@ func main() {
 
 	// Initialize the router
 	r := router.Init()
-	_ = r.Run(":" + "8888") // Replace "8888" with your desired port number
+	_ = r.Run(":" + "8888")
 }

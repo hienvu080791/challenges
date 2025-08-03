@@ -47,9 +47,21 @@ func (s *service) LoginUser(username, password string) interface{} {
 			Data:    err.Error(),
 		}
 	}
+	token, err := utils.GenerateToken(username)
+	if err != nil {
+		return utils.RespModel{
+			Code:    1,
+			Message: "error",
+			Data:    err.Error(),
+		}
+	}
 	return utils.RespModel{
 		Code:    0,
 		Message: "login success",
-		Data:    nil,
+		Data: struct {
+			Token string `json:"token"`
+		}{
+			Token: token,
+		},
 	}
 }

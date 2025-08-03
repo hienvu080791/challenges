@@ -1,8 +1,8 @@
 package storage
 
 import (
+	"demo_challenges/source/module/utils"
 	"fmt"
-	"golang.org/x/crypto/bcrypt"
 	"sync"
 )
 
@@ -14,7 +14,7 @@ type User struct {
 }
 
 func CreateUser(user User) error {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	hashedPassword, err := utils.HashedPassword(user.Password)
 	if err != nil {
 		return err
 	}
@@ -35,7 +35,7 @@ func CheckLogin(user User) error {
 	if !ok {
 		return fmt.Errorf("user not exists")
 	}
-	if err := bcrypt.CompareHashAndPassword(storedPassword.([]byte), []byte(user.Password)); err != nil {
+	if utils.ComparePassword(storedPassword, user.Password) != nil {
 		return fmt.Errorf("incorrect password")
 	}
 	return nil
